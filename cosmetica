@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>COSMO SKIN — премиальная косметика</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #08080f;
+      --bg-soft: rgba(10, 10, 20, 0.8);
+      --accent-start: #ff4ecd;
+      --accent-end: #7b61ff;
+      --accent: #ff4ecd;
+      --text-main: #f8f5ff;
+      --text-muted: #a3a3c4;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --radius-lg: 18px;
+      --radius-xl: 26px;
+      --blur-glass: 22px;
+      --shadow-soft: 0 24px 80px rgba(0, 0, 0, 0.65);
+      --shadow-glow: 0 0 40px rgba(255, 78, 205, 0.5);
+      --transition-fast: 0.25s ease;
+      --transition-med: 0.4s ease;
+      --nav-height: 76px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #141425 0, #08080f 45%, #010108 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Background blobs */
+
+    .blob {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 999px;
+      filter: blur(80px);
+      opacity: 0.5;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      z-index: -2;
+      background: radial-gradient(circle at 30% 20%, var(--accent-start), transparent 60%),
+        radial-gradient(circle at 70% 80%, var(--accent-end), transparent 65%);
+      animation: floatSlow 18s ease-in-out infinite alternate;
+    }
+
+    .blob--1 {
+      top: -100px;
+      left: -60px;
+    }
+
+    .blob--2 {
+      bottom: -120px;
+      right: -80px;
+      animation-duration: 22s;
+      animation-delay: -5s;
+    }
+
+    .blob--3 {
+      top: 40%;
+      right: 20%;
+      width: 320px;
+      height: 320px;
+      opacity: 0.35;
+      animation-duration: 26s;
+      animation-delay: -9s;
+    }
+
+    @keyframes floatSlow {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      50% {
+        transform: translate3d(40px, -30px, 0) scale(1.05);
+      }
+      100% {
+        transform: translate3d(-20px, 20px, 0) scale(1.02);
+      }
+    }
+
+    /* Layout */
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 20px 72px;
+    }
+
+    /* Navbar */
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .nav-inner {
+      pointer-events: auto;
+      width: 100%;
+      max-width: 1120px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: rgba(5, 5, 15, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      transition: background var(--transition-med), border-color var(--transition-med),
+        box-shadow var(--transition-med), transform 0.25s ease;
+    }
+
+    .nav--scrolled .nav-inner {
+      background: rgba(5, 5, 15, 0.9);
+      border-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 18px 55px rgba(0, 0, 0, 0.8);
+      transform: translateY(4px);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-mark {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      box-shadow: 0 0 30px rgba(255, 78, 205, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-mark::after {
+      content: "";
+      position: absolute;
+      inset: 28%;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 0, #fff, transparent 55%);
+      opacity: 0.8;
+      mix-blend-mode: screen;
+    }
+
+    .nav-title {
+      font-weight: 600;
+      font-size: 0.98rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #fef6ff;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: inherit;
+      padding: 7px 12px;
+      border-radius: 999px;
+      transition: color var(--transition-fast), background var(--transition-fast),
+        transform var(--transition-fast);
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.04);
+      transform: translateY(-1px);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.1), transparent 55%),
+        linear-gradient(130deg, rgba(255, 78, 205, 0.45), rgba(123, 97, 255, 0.8));
+      color: #05010a;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: 0 0 30px rgba(255, 78, 205, 0.6);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+    }
+
+    .nav-cta span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-cta::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.3), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 0 40px rgba(255, 78, 205, 0.9);
+      filter: saturate(1.2);
+    }
+
+    .nav-cta:hover::before {
+      opacity: 1;
+    }
+
+    .nav-cta-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #05010a;
+    }
+
+    /* Hero */
+
+    .hero {
+      padding-top: 40px;
+      padding-bottom: 64px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr);
+      gap: 28px;
+      align-items: center;
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        padding-top: 64px;
+        padding-bottom: 88px;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 40px;
+      }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(10, 10, 20, 0.65);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #fff, var(--accent-start));
+      box-shadow: 0 0 18px rgba(255, 78, 205, 0.8);
+    }
+
+    .hero-heading {
+      font-size: clamp(2.4rem, 6vw, 3.7rem);
+      line-height: 1.06;
+      letter-spacing: -0.04em;
+      margin-bottom: 16px;
+      background: linear-gradient(110deg, #ffffff, #f1c3ff, var(--accent-start), var(--accent-end));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 420px;
+      margin-bottom: 24px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 26px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-meta-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(8, 8, 20, 0.8);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background-image: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      color: #050108;
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      text-decoration: none;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 22px 55px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 78, 205, 0.6);
+      transform-origin: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+
+    .btn-primary::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.45), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .btn-primary span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 1), var(--shadow-glow);
+      filter: saturate(1.2);
+    }
+
+    .btn-primary:hover::before {
+      opacity: 1;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 8px 10px;
+      border-radius: 999px;
+      transition: color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .btn-secondary-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.76rem;
+      color: rgba(255, 255, 255, 0.8);
+      background: rgba(8, 8, 20, 0.9);
+    }
+
+    .btn-secondary:hover {
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .hero-note {
+      margin-top: 16px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-note-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #46ffa8;
+      box-shadow: 0 0 14px rgba(70, 255, 168, 0.9);
+    }
+
+    .hero-media {
+      position: relative;
+      padding: 18px;
+      border-radius: 32px;
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.1), transparent 60%),
+        linear-gradient(145deg, rgba(8, 8, 18, 0.95), rgba(11, 8, 22, 0.98));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      isolation: isolate;
+      min-height: 260px;
+    }
+
+    .hero-media-glow {
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 20% 0, rgba(255, 78, 205, 0.5), transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(123, 97, 255, 0.5), transparent 65%);
+      opacity: 0.3;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .hero-bottle {
+      position: relative;
+      z-index: 1;
+      width: min(200px, 60%);
+      aspect-ratio: 1/2.4;
+      margin: 0 auto;
+      border-radius: 999px;
+      background: linear-gradient(160deg, rgba(17, 17, 30, 1), rgba(46, 34, 96, 1));
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.95), 0 0 60px rgba(255, 78, 205, 0.55);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-bottle-inner {
+      position: absolute;
+      inset: 16%;
+      border-radius: inherit;
+      background: radial-gradient(circle at 20% 0, rgba(255, 255, 255, 0.2), transparent 65%),
+        radial-gradient(circle at 50% 90%, rgba(255, 78, 205, 0.5), transparent 70%);
+      opacity: 0.9;
+      mix-blend-mode: screen;
+    }
+
+    .hero-bottle-label {
+      position: relative;
+      width: 70%;
+      height: 46%;
+      border-radius: 20px;
+      background: rgba(8, 8, 16, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #f1e6ff;
+    }
+
+    .hero-bottle-cap {
+      position: absolute;
+      top: -26px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 46%;
+      height: 20px;
+      border-radius: 14px 14px 10px 10px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(100, 90, 200, 0.8));
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.85);
+    }
+
+    .hero-chip {
+      position: absolute;
+      right: 20px;
+      bottom: 18px;
+      padding: 10px 14px;
+      border-radius: 16px;
+      background: rgba(8, 8, 18, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 0.78rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .hero-chip-label {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .hero-chip-value {
+      font-size: 0.9rem;
+    }
+
+    .hero-chip-highlight {
+      background: linear-gradient(120deg, var(--accent-start), var(--accent-end));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 600;
+    }
+
+    /* Sections shared */
+
+    section {
+      margin-bottom: 80px;
+    }
+
+    .section-header {
+      margin-bottom: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .section-kicker {
+      font-size: 0.78rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      max-width: 420px;
+    }
+
+    /* Glass cards */
+
+    .glass {
+      border-radius: var(--radius-lg);
+      background: var(--bg-soft);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(var(--blur-glass));
+      -webkit-backdrop-filter: blur(var(--blur-glass));
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Benefits */
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    @media (min-width: 768px) {
+      .benefits-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    .benefit-card {
+      position: relative;
+      padding: 18px 16px;
+      overflow: hidden;
+      transition: transform var(--transition-med), box-shadow var(--transition-med),
+        border-color var(--transition-med), background var(--transition-med);
+    }
+
+    .benefit-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.8), transparent 55%),
+        linear-gradient(135deg, rgba(255, 78, 205, 0.6), rgba(123, 97, 255, 0.9));
+      color: #09020d;
+      margin-bottom: 14px;
+      box-shadow: 0 0 30px rgba(255, 78, 205, 0.7);
+    }
+
+    .benefit-title {
+      font-size: 0.98rem;
+      margin-bottom: 8px;
+    }
+
+    .benefit-text {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .benefit-glow {
+      position: absolute;
+      inset: -40%;
+      opacity: 0;
+      background: radial-gradient(circle at 20% 0, rgba(255, 78, 205, 0.5), transparent 60%),
+        radial-gradient(circle at 80% 100%, rgba(123, 97, 255, 0.7), transparent 65%);
+      mix-blend-mode: screen;
+      transition: opacity var(--transition-med);
+      pointer-events: none;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: var(--shadow-glow);
+      border-color: rgba(255, 255, 255, 0.18);
+      background: rgba(10, 10, 20, 0.95);
+    }
+
+    .benefit-card:hover .benefit-glow {
+      opacity: 0.7;
+    }
+
+    /* Stats */
+
+    .stats {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    @media (min-width: 768px) {
+      .stats {
+        grid-template-columns: 1.2fr 1.1fr;
+        gap: 26px;
+      }
+    }
+
+    .stats-card {
+      padding: 20px 18px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .stat {
+      padding: 10px 10px 12px;
+      border-radius: 16px;
+      background: rgba(6, 6, 16, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      background: linear-gradient(110deg, #ffffff, var(--accent-start), var(--accent-end));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 2px;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .stats-note {
+      margin-top: 14px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Testimonials */
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    @media (min-width: 768px) {
+      .testimonials-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .testimonial-card {
+      padding: 18px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonial-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, #fff, #f9b8ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: #150718;
+      box-shadow: 0 0 20px rgba(255, 78, 205, 0.5);
+    }
+
+    .testimonial-name {
+      font-size: 0.9rem;
+    }
+
+    .testimonial-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .testimonial-quote {
+      font-size: 0.86rem;
+      color: var(--text-main);
+      line-height: 1.7;
+    }
+
+    .testimonial-tag {
+      margin-top: 10px;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+
+    /* CTA */
+
+    .cta {
+      padding: 22px 18px 20px;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.12), transparent 55%),
+        linear-gradient(130deg, rgba(8, 8, 20, 0.98), rgba(20, 8, 36, 0.98));
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.9);
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .cta-glow {
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 0 0, rgba(255, 78, 205, 0.7), transparent 65%),
+        radial-gradient(circle at 100% 100%, rgba(123, 97, 255, 0.8), transparent 65%);
+      opacity: 0.45;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .cta-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
+    }
+
+    @media (min-width: 768px) {
+      .cta-inner {
+        grid-template-columns: 1.2fr 1.1fr;
+      }
+    }
+
+    .cta-title {
+      font-size: 1.4rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .cta-text {
+      font-size: 0.9rem;
+      color: #f7ebff;
+      max-width: 360px;
+    }
+
+    .cta-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    @media (min-width: 480px) {
+      .cta-form {
+        flex-direction: row;
+      }
+    }
+
+    .input-wrap {
+      position: relative;
+      flex: 1;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 11px 12px 11px 32px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(5, 5, 15, 0.9);
+      color: #ffffff;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color var(--transition-fast), background var(--transition-fast),
+        box-shadow var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .input-field::placeholder {
+      color: rgba(200, 190, 225, 0.7);
+    }
+
+    .input-field:focus {
+      border-color: var(--accent-start);
+      background: rgba(10, 10, 24, 0.95);
+      box-shadow: 0 0 24px rgba(255, 78, 205, 0.55);
+      transform: translateY(-1px);
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.84rem;
+      color: rgba(200, 190, 225, 0.9);
+      pointer-events: none;
+    }
+
+    .cta-submit {
+      border-radius: 999px;
+      border: none;
+      outline: none;
+      padding: 11px 20px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background-image: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      color: #050108;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.9), 0 0 32px rgba(255, 78, 205, 0.7);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+
+    .cta-submit::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.5), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .cta-submit:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 22px 68px rgba(0, 0, 0, 1), var(--shadow-glow);
+      filter: saturate(1.1);
+    }
+
+    .cta-submit:hover::before {
+      opacity: 1;
+    }
+
+    .cta-footnote {
+      font-size: 0.76rem;
+      color: rgba(240, 230, 255, 0.85);
+      margin-top: 4px;
+    }
+
+    /* Footer */
+
+    footer {
+      margin-top: 36px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    @media (min-width: 640px) {
+      footer {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+
+    /* Scroll reveal & fadeInUp */
+
+    .reveal {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+      transition: opacity 0.7s cubic-bezier(0.16, 0.84, 0.44, 1),
+        transform 0.7s cubic-bezier(0.16, 0.84, 0.44, 1);
+    }
+
+    .reveal-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .hero-animated {
+      animation: fadeInUp 0.9s cubic-bezier(0.16, 0.84, 0.44, 1) 0.05s both;
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 26px, 0);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    /* Utility */
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(250, 245, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+    }
+
+    /* Responsive tweaks */
+
+    @media (max-width: 480px) {
+      .nav-inner {
+        padding-inline: 10px;
+      }
+      .nav-links {
+        display: none;
+      }
+      .hero {
+        padding-top: 28px;
+      }
+      .hero-bottle {
+        width: 64%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- floating background blobs -->
+  <div class="blob blob--1"></div>
+  <div class="blob blob--2"></div>
+  <div class="blob blob--3"></div>
+
+  <!-- nav -->
+  <header class="nav" id="top">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <div class="nav-mark"></div>
+        <div class="nav-title">COSMO SKIN</div>
+      </div>
+      <nav class="nav-links">
+        <a href="#benefits">Преимущества</a>
+        <a href="#results">Результат</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#signup">Записаться</a>
+      </nav>
+      <a href="#signup" class="nav-cta">
+        <span class="nav-cta-dot"></span>
+        <span>Личный подбор</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="page">
+    <!-- hero -->
+    <section class="hero">
+      <div class="hero-content hero-animated">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Клинически протестированная премиум‑косметика
+        </div>
+        <h1 class="hero-heading">
+          Кожа, которой<br />
+          хочется касаться.
+        </h1>
+        <p class="hero-sub">
+          Персонализированные протоколы ухода и минималистичная косметика с
+          высокой концентрацией активов. Никакого шума — только формулы, которые
+          работают.
+        </p>
+        <div class="hero-meta">
+          <div class="hero-meta-pill">Создано дерматологами</div>
+          <div class="hero-meta-pill">Веган • Без отдушек</div>
+          <div class="hero-meta-pill">Made in EU</div>
+        </div>
+        <div class="hero-actions">
+          <a href="#signup" class="btn-primary">
+            <span>Подобрать рутину</span>
+          </a>
+          <a href="#reviews" class="btn-secondary">
+            <span class="btn-secondary-icon">★</span>
+            <span>4.9 / 5 — реальные отзывы</span>
+          </a>
+        </div>
+        <div class="hero-note">
+          <span class="hero-note-dot"></span>
+          Первые визуальные результаты уже через 14 дней.
+        </div>
+      </div>
+      <div class="hero-media reveal" data-reveal>
+        <div class="hero-media-glow"></div>
+        <div class="hero-bottle">
+          <div class="hero-bottle-cap"></div>
+          <div class="hero-bottle-inner"></div>
+          <div class="hero-bottle-label">
+            COSMO SKIN
+            <br />
+            SERUM 02 / GLOW
+          </div>
+        </div>
+        <div class="hero-chip">
+          <div class="hero-chip-label">Клинические данные</div>
+          <div class="hero-chip-value">
+            <span class="hero-chip-highlight">93%</span> отметили ровный тон
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- benefits -->
+    <section id="benefits">
+      <div class="section-header reveal" data-reveal>
+        <div class="section-kicker">Преимущества</div>
+        <h2 class="section-title">Меньше шагов. Больше результата.</h2>
+        <p class="section-subtitle">
+          Мы убрали всё лишнее — только короткая рутинa из умных мультипродуктов,
+          которые закрывают сразу несколько задач кожи.
+        </p>
+      </div>
+      <div class="benefits-grid">
+        <article class="glass benefit-card reveal" data-reveal>
+          <div class="benefit-glow"></div>
+          <div class="benefit-icon">01</div>
+          <h3 class="benefit-title">Чистые формулы без шума</h3>
+          <p class="benefit-text">
+            Без отдушек, минеральных масел и раздражающих консервантов. Только
+            активы с подтверждённой эффективностью и минималистичной базой.
+          </p>
+        </article>
+        <article class="glass benefit-card reveal" data-reveal>
+          <div class="benefit-glow"></div>
+          <div class="benefit-icon">02</div>
+          <h3 class="benefit-title">Персональный протокол</h3>
+          <p class="benefit-text">
+            Алгоритм подбирает уход под чувствительность, фототип и цели: акне,
+            тусклый тон, морщины, пост‑акне, купероз.
+          </p>
+        </article>
+        <article class="glass benefit-card reveal" data-reveal>
+          <div class="benefit-glow"></div>
+          <div class="benefit-icon">03</div>
+          <h3 class="benefit-title">Синергия активов</h3>
+          <p class="benefit-text">
+            Каждая формула рассчитана на совместимость: правильный pH, буферные
+            комплексы и мягкие проводники вглубь кожи.
+          </p>
+        </article>
+        <article class="glass benefit-card reveal" data-reveal>
+          <div class="benefit-glow"></div>
+          <div class="benefit-icon">04</div>
+          <h3 class="benefit-title">Сознательное потребление</h3>
+          <p class="benefit-text">
+            Меньше баночек в ванной — меньше пластика. Концентраты‑гибриды
+            заменяют 3–4 привычных продукта.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- stats / counters -->
+    <section id="results">
+      <div class="section-header reveal" data-reveal>
+        <div class="section-kicker">Результаты</div>
+        <h2 class="section-title">Косметика, за которую говорят цифры.</h2>
+        <p class="section-subtitle">
+          Данные независимого клинического исследования после 8 недель использования полной
+          рутины COSMO SKIN.
+        </p>
+      </div>
+      <div class="stats">
+        <article class="glass stats-card reveal" data-reveal>
+          <div class="tag-pill">
+            <span class="tag-dot"></span>
+            Основано на 132 участницах
+          </div>
+          <div class="stats-grid">
+            <div class="stat">
+              <div class="stat-value" data-counter data-target="93">0%</div>
+              <div class="stat-label">Более ровный тон кожи</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" data-counter data-target="87">0%</div>
+              <div class="stat-label">Меньше высыпаний и воспалений</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" data-counter data-target="72">0%</div>
+              <div class="stat-label">Сокращение выраженности морщин</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" data-counter data-target="96">0%</div>
+              <div class="stat-label">Отметили «здоровое сияние»</div>
+            </div>
+          </div>
+          <p class="stats-note">
+            Цифры основаны на самооценке и приборном измерении увлажнённости, эластичности и
+            плотности кожи.
+          </p>
+        </article>
+        <article class="glass stats-card reveal" data-reveal>
+          <h3 class="benefit-title">Как это выглядит в жизни</h3>
+          <p class="benefit-text" style="margin-bottom: 12px;">
+            Ровная текстура, спокойные поры, устойчивое сияние — без ощущения тяжёлого
+            макияжа. COSMO SKIN легко встраивается в вашу привычную рутину и делает её в
+            два раза короче.
+          </p>
+          <p class="benefit-text">
+            Концентрированные текстуры хорошо наслаиваются и не конфликтуют с SPF и
+            декоративной косметикой. Формулы подходят для чувствительной кожи и тестируются
+            под дерматологическим контролем.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- testimonials -->
+    <section id="reviews">
+      <div class="section-header reveal" data-reveal>
+        <div class="section-kicker">Отзывы</div>
+        <h2 class="section-title">«Наконец‑то кожа не реагирует на всё подряд»</h2>
+        <p class="section-subtitle">
+          Реальные истории клиентов, которые сменили перегруженные полки на продуманный
+          минимализм.
+        </p>
+      </div>
+      <div class="testimonials-grid">
+        <article class="glass testimonial-card reveal" data-reveal>
+          <div class="testimonial-top">
+            <div class="avatar">A</div>
+            <div>
+              <div class="testimonial-name">Анна, 32</div>
+              <div class="testimonial-meta">Комбинированная кожа, акне‑история</div>
+            </div>
+          </div>
+          <p class="testimonial-quote">
+            «Через две недели заметила, что перестала маскировать тональным каждое покраснение.
+            Кожа стала спокойной, ушёл постоянный блеск и чувство стянутости после умывания.»
+          </p>
+          <div class="testimonial-tag">Результат через 14 дней</div>
+        </article>
+
+        <article class="glass testimonial-card reveal" data-reveal>
+          <div class="testimonial-top">
+            <div class="avatar">M</div>
+            <div>
+              <div class="testimonial-name">Мария, 41</div>
+              <div class="testimonial-meta">Сухая чувствительная кожа</div>
+            </div>
+          </div>
+          <p class="testimonial-quote">
+            «Всегда боялась кислот, но здесь формулы настолько продуманные, что кожа реагирует
+            мягким сиянием, а не раздражением. Поры визуально стали меньше, тон выровнялся.»
+          </p>
+          <div class="testimonial-tag">Результат через 6 недель</div>
+        </article>
+
+        <article class="glass testimonial-card reveal" data-reveal>
+          <div class="testimonial-top">
+            <div class="avatar">E</div>
+            <div>
+              <div class="testimonial-name">Екатерина, 27</div>
+              <div class="testimonial-meta">Нормальная, склонная к обезвоживанию</div>
+            </div>
+          </div>
+          <p class="testimonial-quote">
+            «Сократила уход с семи баночек до трёх. Утро занимает три минуты, а кожа выглядит
+            как после салона. Очень ценю понятный состав и честную коммуникацию бренда.»
+          </p>
+          <div class="testimonial-tag">Результат через 4 недели</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="signup">
+      <div class="cta reveal" data-reveal>
+        <div class="cta-glow"></div>
+        <div class="cta-inner">
+          <div>
+            <h2 class="cta-title">Получите свой протокол ухода за 60 секунд.</h2>
+            <p class="cta-text">
+              Ответьте на несколько вопросов о коже, и мы подберём формулы, которые закроют
+              ваши запросы без бесполезных шагов.
+            </p>
+          </div>
+          <div>
+            <form class="cta-form" onsubmit="event.preventDefault();">
+              <div class="input-wrap">
+                <span class="input-icon">@</span>
+                <input
+                  type="email"
+                  required
+                  class="input-field"
+                  placeholder="Ваш email для отправки протокола" />
+              </div>
+              <button type="submit" class="cta-submit">Получить подбор</button>
+            </form>
+            <p class="cta-footnote">
+              Никакого спама — только ваш персональный протокол и редкие апдейты по продуктам.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- footer -->
+    <footer>
+      <div>© 2026 COSMO SKIN. Все права защищены.</div>
+      <div class="footer-links">
+        <a href="#top">Наверх</a>
+        <a href="#benefits">Философия</a>
+        <a href="#signup">Подбор ухода</a>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Sticky nav blur on scroll
+    (function () {
+      const header = document.querySelector(".nav");
+      const onScroll = () => {
+        if (window.scrollY > 10) {
+          header.classList.add("nav--scrolled");
+        } else {
+          header.classList.remove("nav--scrolled");
+        }
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    })();
+
+    // Smooth scroll for internal links (fallback for older browsers)
+    (function () {
+      const links = document.querySelectorAll('a[href^="#"]');
+      links.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const href = link.getAttribute("href");
+          if (!href || href === "#") return;
+          const target = document.querySelector(href);
+          if (!target) return;
+          e.preventDefault();
+          const top = target.getBoundingClientRect().top + window.scrollY - 64;
+          window.scrollTo({ top, behavior: "smooth" });
+        });
+      });
+    })();
+
+    // Scroll reveal via IntersectionObserver
+    (function () {
+      const revealEls = document.querySelectorAll("[data-reveal]");
+      if (!("IntersectionObserver" in window)) {
+        revealEls.forEach((el) => el.classList.add("reveal-visible"));
+        return;
+      }
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("reveal-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.18,
+        }
+      );
+      revealEls.forEach((el) => observer.observe(el));
+    })();
+
+    // Counters (0 -> value over 2s) when stats section becomes visible
+    (function () {
+      const counters = document.querySelectorAll("[data-counter]");
+      if (!counters.length) return;
+
+      const duration = 2000;
+
+      const animate = (el) => {
+        const target = parseInt(el.getAttribute("data-target"), 10);
+        if (Number.isNaN(target)) return;
+        const startTime = performance.now();
+
+        const tick = (now) => {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const current = Math.floor(target * progress);
+          el.textContent = current + "%";
+          if (progress < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            el.textContent = target + "%";
+          }
+        };
+        requestAnimationFrame(tick);
+      };
+
+      const triggerAnimation = () => {
+        counters.forEach((el) => animate(el));
+      };
+
+      if (!("IntersectionObserver" in window)) {
+        triggerAnimation();
+        return;
+      }
+
+      const parentSection = document.querySelector("#results");
+      if (!parentSection) {
+        triggerAnimation();
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              triggerAnimation();
+              observer.disconnect();
+            }
+          });
+        },
+        {
+          threshold: 0.25,
+        }
+      );
+      observer.observe(parentSection);
+    })();
+  </script>
+</body>
+</html>
